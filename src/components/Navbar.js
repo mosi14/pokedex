@@ -11,7 +11,7 @@ const Navbar = () => {
         Pokédex
       </Link>
       <div className="flex space-x-4 items-center">
-        {/* Search Box */}
+
         <input
           type="text"
           placeholder="Search Pokémon..."
@@ -20,16 +20,15 @@ const Navbar = () => {
           className="p-2 rounded-lg border border-gray-300"
         />
 
-        {/* Language Selector */}
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
           className="p-2 rounded-lg border border-gray-300"
         >
-          <option value="en">English</option>
-          <option value="it">Italian</option>
-          <option value="fr">French</option>
-          <option value="es">Spanish</option>
+          <option value="en">En</option>
+          <option value="it">It</option>
+          <option value="fr">Fr</option>
+          <option value="es">ES</option>
         </select>
       </div>
     </nav>

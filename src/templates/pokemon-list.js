@@ -11,11 +11,10 @@ const PokemonList = ({ data, pageContext }) => {
   const prevPage = currentPage === 2 ? `/` : `/page/${currentPage - 1}`;
   const nextPage = `/page/${currentPage + 1}`;
 
-  // Pokémon datasets
   const allPokemon = data.allPokemon.nodes;
   const paginatedPokemon = data.paginatedPokemon.nodes;
 
-  // Filter Pokémon based on the search query
+
   const filteredPokemon = searchQuery
     ? allPokemon.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -28,7 +27,7 @@ const PokemonList = ({ data, pageContext }) => {
         <div className="container mx-auto p-8 ">
           <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
 
-          {/* Pokémon Grid */}
+      
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {filteredPokemon.map((pokemon) => (
               <Link to={`/pokemon/${pokemon.name}`} key={pokemon.id}>
@@ -42,7 +41,6 @@ const PokemonList = ({ data, pageContext }) => {
                     {pokemon.name}
                   </h2>
 
-                  {/* Pokémon Details */}
                   <div className="text-gray-600 text-center">
                     <p>
                       <strong>Height:</strong> {pokemon.height / 10} m
@@ -56,7 +54,6 @@ const PokemonList = ({ data, pageContext }) => {
             ))}
           </div>
 
-          {/* Pagination */}
           {!searchQuery && (
             <div className="flex justify-center mt-8">
               {!isFirst && (
