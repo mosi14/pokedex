@@ -1,9 +1,11 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import { useLanguage } from "../context/LanguageContext";
 
 const PokemonPage = ({ pageContext }) => {
   const { name, genus, description, image, height, weight, types, abilities, stats } = pageContext;
-console.log(pageContext)
+  const { language } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
@@ -18,8 +20,8 @@ console.log(pageContext)
           {/* Pokémon Basic Info */}
           <div>
             <h1 className="text-4xl font-bold capitalize mb-2">{name}</h1>
-            <p className="text-gray-600 mb-4"><strong>Genus:</strong> {genus}</p>
-            <p className="text-gray-600 mb-4"><strong>Description:</strong> {description}</p>
+            <p className="text-gray-600 mb-4"><strong>Genus:</strong> {genus[language]}</p>
+            <p className="text-gray-600 mb-4"><strong>Description:</strong> {description[language]}</p>
             <p className="text-gray-600 mb-4"><strong>Height:</strong> {height / 10} m</p>
             <p className="text-gray-600 mb-4"><strong>Weight:</strong> {weight / 10} kg</p>
           </div>

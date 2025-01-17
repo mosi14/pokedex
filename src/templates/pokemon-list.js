@@ -1,71 +1,96 @@
 import React, { useState } from "react";
 import { graphql, Link } from "gatsby";
 import Navbar from "../components/Navbar";
-import { use } from "react";
 
 const PokemonList = ({ data, pageContext }) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const { currentPage, numPages } = pageContext;
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
   const prevPage = currentPage === 2 ? `/` : `/page/${currentPage - 1}`;
   const nextPage = `/page/${currentPage + 1}`;
-  const [searchQuery, setSearchQuery] = useState("");
-  const [language, setLanguage] = useState("en");
+
+  // Pokémon datasets
+  const allPokemon = data.allPokemon.nodes;
+  const paginatedPokemon = data.paginatedPokemon.nodes;
+
+  // Filter Pokémon based on the search query
+  const filteredPokemon = searchQuery
+    ? allPokemon.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : paginatedPokemon;
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        setLanguage={setLanguage}
-      />
-      <div className="container mx-auto p-8">
-        <h1 className="text-3xl font-bold">Pokédex</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data.allPokemon.nodes.map((pokemon) => (
+      {/* Navbar */}
+      <Navbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
+      <div className="container mx-auto p-8 ">
+        <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
+
+        {/* Pokémon Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          {filteredPokemon.map((pokemon) => (
             <Link to={`/pokemon/${pokemon.name}`} key={pokemon.id}>
-              <div className="bg-white p-4 shadow-md hover:shadow-lg">
+              <div className="animate-fadeIn bg-white p-6 rounded-lg shadow-lg hover:shadow-xl border border-gray-200 transition-transform transform hover:scale-105">
                 <img
                   src={pokemon.image}
                   alt={pokemon.name}
-                  className="w-full h-32 object-contain"
+                  className="w-full h-40 object-contain mb-4"
                 />
-                <h2 className="text-xl text-center">{pokemon.name}</h2>
+                <h2 className="text-xl font-bold text-center capitalize">
+                  {pokemon.name}
+                </h2>
+
+                {/* Pokémon Details */}
+                <div className="text-gray-600 text-center">
+                  <p>
+                    <strong>Height:</strong> {pokemon.height / 10} m
+                  </p>
+                  <p>
+                    <strong>Weight:</strong> {pokemon.weight / 10} kg
+                  </p>
+                </div>
               </div>
             </Link>
           ))}
         </div>
-        <div className="flex justify-center mt-8">
-          {!isFirst && (
-            <Link
-              to={prevPage}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-            >
-              ← Previous
-            </Link>
-          )}
-          {Array.from({ length: numPages }, (_, i) => (
-            <Link
-              key={`pagination-number${i + 1}`}
-              to={i === 0 ? `/` : `/page/${i + 1}`}
-              className={`px-4 py-2 ${
-                currentPage === i + 1
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-black"
-              } rounded-lg`}
-            >
-              {i + 1}
-            </Link>
-          ))}
-          {!isLast && (
-            <Link
-              to={nextPage}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-            >
-              Next →
-            </Link>
-          )}
-        </div>
+
+        {/* Pagination */}
+        {!searchQuery && (
+          <div className="flex justify-center mt-8">
+            {!isFirst && (
+              <Link
+                to={prevPage}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+              >
+                ← Previous
+              </Link>
+            )}
+            {Array.from({ length: numPages }, (_, i) => (
+              <Link
+                key={`pagination-number${i + 1}`}
+                to={i === 0 ? `/` : `/page/${i + 1}`}
+                className={`px-4 py-2 ${
+                  currentPage === i + 1
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-black"
+                } rounded-lg`}
+              >
+                {i + 1}
+              </Link>
+            ))}
+            {!isLast && (
+              <Link
+                to={nextPage}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+              >
+                Next →
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -73,11 +98,22 @@ const PokemonList = ({ data, pageContext }) => {
 
 export const query = graphql`
   query PokemonListQuery($skip: Int!, $limit: Int!) {
-    allPokemon(skip: $skip, limit: $limit) {
+    allPokemon {
       nodes {
         id
         name
         image
+        height
+        weight
+      }
+    }
+    paginatedPokemon: allPokemon(skip: $skip, limit: $limit) {
+      nodes {
+        id
+        name
+        image
+        height
+        weight
       }
     }
   }
