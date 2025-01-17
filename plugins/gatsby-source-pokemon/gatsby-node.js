@@ -28,6 +28,8 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
+
+  // Fetch Pokémon nodes from GraphQL
   const result = await graphql(`
     {
       allPokemon {
@@ -42,18 +44,37 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `);
 
+  const pokemon = result.data.allPokemon.nodes;
+  const itemsPerPage = 20; // Pokémon per page
+  const numPages = Math.ceil(pokemon.length / itemsPerPage);
+
+  // 1. Create Paginated List Pages
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/` : `/page/${i + 1}`,
+      component: require.resolve("../../src/templates/pokemon-list.js"),
+      context: {
+        limit: itemsPerPage,
+        skip: i * itemsPerPage,
+        numPages,
+        currentPage: i + 1,
+      },
+    });
+  });
+
+  // 2. Create Detail Pages for Each Pokémon
   const pokemonTemplate = require.resolve("../../src/templates/Pokemon.js");
 
-  result.data.allPokemon.nodes.forEach(pokemon => {
+  pokemon.forEach((pokemon) => {
     createPage({
       path: `/pokemon/${pokemon.name}`,
       component: pokemonTemplate,
       context: {
         id: pokemon.id,
-        name:pokemon.name,
-        genus:pokemon.genus,
-        description:pokemon.description,
-        image:pokemon.image,
+        name: pokemon.name,
+        genus: pokemon.genus,
+        description: pokemon.description,
+        image: pokemon.image,
       },
     });
   });
