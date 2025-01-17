@@ -1,12 +1,15 @@
 import React from "react";
-import { useLanguage } from "../context/LanguageContext";
+import { Link } from "gatsby";
+import { useGlobalContext } from "../context/GlobalContext";
 
-const Navbar = ({ searchQuery, setSearchQuery }) => {
-  const { language, setLanguage } = useLanguage();
+const Navbar = () => {
+  const { searchQuery, setSearchQuery, language, setLanguage } = useGlobalContext();
 
   return (
     <nav className="bg-blue-600 p-4 flex justify-between items-center">
-      <h1 className="text-white text-2xl font-bold">Pokédex</h1>
+      <Link to="/" className="text-white text-2xl font-bold">
+        Pokédex
+      </Link>
       <div className="flex space-x-4 items-center">
         {/* Search Box */}
         <input

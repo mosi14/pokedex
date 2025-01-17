@@ -1,7 +1,7 @@
 import React from "react";
 import "./src/styles/global.css";
-import { LanguageProvider } from "./src/context/LanguageContext";
+import { GlobalProvider } from "./src/context/GlobalContext";
 
 export const wrapRootElement = ({ element }) => (
-  <LanguageProvider>{element}</LanguageProvider>
+  <GlobalProvider>{element}</GlobalProvider>
 );
