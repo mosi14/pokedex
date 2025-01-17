@@ -1,31 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
 
-const Navbar = ({ searchQuery, setSearchQuery, setLanguage }) => {
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
+const Navbar = ({ searchQuery, setSearchQuery }) => {
+  const { language, setLanguage } = useLanguage();
 
   return (
-    <nav className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <h1 className="text-2xl font-bold">Pokédex</h1>
-
+    <nav className="bg-blue-600 p-4 flex justify-between items-center">
+      <h1 className="text-white text-2xl font-bold">Pokédex</h1>
+      <div className="flex space-x-4 items-center">
         {/* Search Box */}
-        <div className="flex items-center">
-          <input
-            type="text"
-            placeholder="Search Pokémon..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-4 py-2 rounded-lg text-black"
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Search Pokémon..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="p-2 rounded-lg border border-gray-300"
+        />
 
         {/* Language Selector */}
         <select
-          onChange={handleLanguageChange}
-          className="ml-4 px-4 py-2 rounded-lg bg-white text-black"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="p-2 rounded-lg border border-gray-300"
         >
           <option value="en">English</option>
           <option value="it">Italian</option>
