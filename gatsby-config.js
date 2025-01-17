@@ -15,6 +15,9 @@ module.exports = {
       resolve: require.resolve("./plugins/gatsby-source-pokemon"),
       options: {
         icon: "src/images/icon.png",
+        fonts: [
+          `Montserrat\:400,700`, 
+        ],
       },
     },
     "gatsby-plugin-sharp",

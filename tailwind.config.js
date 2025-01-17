@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Montserrat", "Arial", "sans-serif"], 
+      },
       animation: {
         fadeIn: "fadeIn 0.5s ease-in-out",
       },
