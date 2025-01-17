@@ -22,13 +22,19 @@ exports.sourceNodes = async ({
     createNode({
       id: createNodeId(pokemon.name),
       name: pokemonDetails.data.name,
-      genus:
-        pokemonDetails.data.genera.find((g) => g.language.name === "en")
-          ?.genus || "",
-      description:
-        pokemonDetails.data.flavor_text_entries.find(
-          (f) => f.language.name === "en"
-        )?.flavor_text || "No description available",
+      genus: {
+        en: pokemonDetails.data.genera.find((g) => g.language.name === "en")?.genus || "",
+        it: pokemonDetails.data.genera.find((g) => g.language.name === "it")?.genus || "",
+        fr: pokemonDetails.data.genera.find((g) => g.language.name === "fr")?.genus || "",
+        es: pokemonDetails.data.genera.find((g) => g.language.name === "es")?.genus || "",
+
+      },
+      description: {
+        en: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "en")?.flavor_text || "No description available",
+        it: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "it")?.flavor_text || "No description available",
+        fr: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "fr")?.flavor_text || "No description available",
+        es: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "es")?.flavor_text || "No description available",
+      },
       image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonDetails.data.id}.png`,
       height: pokemonMainDetails.data.height,
       weight: pokemonMainDetails.data.weight,
@@ -51,25 +57,35 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Fetch Pokémon nodes from GraphQL
   const result = await graphql(`
-  {
-    allPokemon {
-      nodes {
-        id
-        name
-        genus
-        description
-        image
-        height
-        weight
-        types
-        abilities
-        stats {
+    {
+      allPokemon {
+        nodes {
+          id
           name
-          value
+          genus {
+            en
+            it
+            fr
+            es
+          }
+          description {
+            en
+            it
+            fr
+            es
+          }
+          image
+          height
+          weight
+          types
+          abilities
+          stats {
+            name
+            value
+          }
         }
       }
     }
-  }
   `);
 
   const pokemon = result.data.allPokemon.nodes;
