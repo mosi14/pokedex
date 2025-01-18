@@ -95,7 +95,8 @@ exports.createPages = async ({ graphql, actions }) => {
   // 1. Create Paginated List Pages
   Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
-      path: i === 0 ? `/` : `/page/${i + 1}`,
+      path: `/page/${i + 1}`,
+      //path: i === 0 ? `/` : `/page/${i + 1}`,
       component: require.resolve("../../src/templates/pokemon-list.js"),
       context: {
         limit: itemsPerPage,
@@ -104,6 +105,12 @@ exports.createPages = async ({ graphql, actions }) => {
         currentPage: i + 1,
       },
     });
+  });
+  createRedirect({
+    fromPath: `/`,
+    toPath: `/page/1`,
+    isPermanent: true,
+    redirectInBrowser: true,
   });
 
   // 2. Create Detail Pages for Each Pokémon
