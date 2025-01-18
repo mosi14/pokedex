@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 import { useGlobalContext } from "../context/GlobalContext";
 
 const PokemonList = ({ data, pageContext }) => {
-  const {searchQuery} = useGlobalContext();
+  const { searchQuery , language} = useGlobalContext();
   const { currentPage, numPages } = pageContext;
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
@@ -13,7 +13,6 @@ const PokemonList = ({ data, pageContext }) => {
 
   const allPokemon = data.allPokemon.nodes;
   const paginatedPokemon = data.paginatedPokemon.nodes;
-
 
   const filteredPokemon = searchQuery
     ? allPokemon.filter((pokemon) =>
@@ -27,18 +26,17 @@ const PokemonList = ({ data, pageContext }) => {
         <div className="container mx-auto p-8 ">
           <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
 
-      
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {filteredPokemon.map((pokemon) => (
-              <Link to={`/pokemon/${pokemon.name}`} key={pokemon.id}>
+              <Link to={`/pokemon/${pokemon.name[language].toLowerCase()}`} key={pokemon.id}>
                 <div className="animate-fadeIn bg-white p-6 rounded-lg shadow-lg hover:shadow-xl border border-gray-200 transition-transform transform hover:scale-105">
                   <img
                     src={pokemon.image}
-                    alt={pokemon.name}
+                    alt={pokemon.name[language]}
                     className="w-full h-40 object-contain"
                   />
                   <h2 className="text-xl font-bold text-center capitalize">
-                    {pokemon.name}
+                    {pokemon.name[language]}
                   </h2>
 
                   <div className="text-gray-600 text-center">
@@ -98,7 +96,12 @@ export const query = graphql`
     allPokemon {
       nodes {
         id
-        name
+        name {
+          en
+          it
+          fr
+          es
+        }
         image
         height
         weight
@@ -107,7 +110,12 @@ export const query = graphql`
     paginatedPokemon: allPokemon(skip: $skip, limit: $limit) {
       nodes {
         id
-        name
+        name {
+          en
+          it
+          fr
+          es
+        }
         image
         height
         weight

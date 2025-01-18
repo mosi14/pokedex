@@ -21,19 +21,51 @@ exports.sourceNodes = async ({
 
     createNode({
       id: createNodeId(pokemon.name),
-      name: pokemonDetails.data.name,
+      name: {
+        en:
+          pokemonDetails.data.names.find((n) => n.language.name === "en")
+            ?.name || pokemonDetails.data.name,
+        it:
+          pokemonDetails.data.names.find((n) => n.language.name === "it")
+            ?.name || pokemonDetails.data.name,
+        fr:
+          pokemonDetails.data.names.find((n) => n.language.name === "fr")
+            ?.name || pokemonDetails.data.name,
+        es:
+          pokemonDetails.data.names.find((n) => n.language.name === "es")
+            ?.name || pokemonDetails.data.name,
+      },
       genus: {
-        en: pokemonDetails.data.genera.find((g) => g.language.name === "en")?.genus || "",
-        it: pokemonDetails.data.genera.find((g) => g.language.name === "it")?.genus || "",
-        fr: pokemonDetails.data.genera.find((g) => g.language.name === "fr")?.genus || "",
-        es: pokemonDetails.data.genera.find((g) => g.language.name === "es")?.genus || "",
-
+        en:
+          pokemonDetails.data.genera.find((g) => g.language.name === "en")
+            ?.genus || "",
+        it:
+          pokemonDetails.data.genera.find((g) => g.language.name === "it")
+            ?.genus || "",
+        fr:
+          pokemonDetails.data.genera.find((g) => g.language.name === "fr")
+            ?.genus || "",
+        es:
+          pokemonDetails.data.genera.find((g) => g.language.name === "es")
+            ?.genus || "",
       },
       description: {
-        en: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "en")?.flavor_text || "No description available",
-        it: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "it")?.flavor_text || "No description available",
-        fr: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "fr")?.flavor_text || "No description available",
-        es: pokemonDetails.data.flavor_text_entries.find((f) => f.language.name === "es")?.flavor_text || "No description available",
+        en:
+          pokemonDetails.data.flavor_text_entries.find(
+            (f) => f.language.name === "en"
+          )?.flavor_text || "No description available",
+        it:
+          pokemonDetails.data.flavor_text_entries.find(
+            (f) => f.language.name === "it"
+          )?.flavor_text || "No description available",
+        fr:
+          pokemonDetails.data.flavor_text_entries.find(
+            (f) => f.language.name === "fr"
+          )?.flavor_text || "No description available",
+        es:
+          pokemonDetails.data.flavor_text_entries.find(
+            (f) => f.language.name === "es"
+          )?.flavor_text || "No description available",
       },
       image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonDetails.data.id}.png`,
       height: pokemonMainDetails.data.height,
@@ -53,7 +85,7 @@ exports.sourceNodes = async ({
 };
 
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions;
+  const { createPage, createRedirect } = actions;
 
   // Fetch Pokémon nodes from GraphQL
   const result = await graphql(`
@@ -61,7 +93,12 @@ exports.createPages = async ({ graphql, actions }) => {
       allPokemon {
         nodes {
           id
-          name
+          name {
+            en
+            it
+            fr
+            es
+          }
           genus {
             en
             it
@@ -108,7 +145,7 @@ exports.createPages = async ({ graphql, actions }) => {
   });
   createRedirect({
     fromPath: `/`,
-    toPath: `/page/1`,
+    toPath: `/page/1/`,
     isPermanent: true,
     redirectInBrowser: true,
   });
@@ -117,21 +154,25 @@ exports.createPages = async ({ graphql, actions }) => {
   const pokemonTemplate = require.resolve("../../src/templates/Pokemon.js");
 
   pokemon.forEach((pokemon) => {
-    createPage({
-      path: `/pokemon/${pokemon.name}`,
-      component: pokemonTemplate,
-      context: {
-        id: pokemon.id,
-        name: pokemon.name,
-        genus: pokemon.genus,
-        description: pokemon.description,
-        image: pokemon.image,
-        height: pokemon.height,
-        weight: pokemon.weight,
-        types: pokemon.types,
-        abilities: pokemon.abilities,
-        stats: pokemon.stats,
-      },
+    const languages = ["en", "it", "fr", "es"];
+    languages.forEach((lang) => {
+      createPage({
+        path: `/pokemon/${pokemon.name[lang].toLowerCase()}`,
+        component: pokemonTemplate,
+        context: {
+          id: pokemon.id,
+          name: pokemon.name,
+          genus: pokemon.genus,
+          description: pokemon.description,
+          image: pokemon.image,
+          height: pokemon.height,
+          weight: pokemon.weight,
+          types: pokemon.types,
+          abilities: pokemon.abilities,
+          stats: pokemon.stats,
+          lang,
+        },
+      });
     });
   });
 };

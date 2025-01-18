@@ -14,6 +14,7 @@ const PokemonPage = ({ pageContext }) => {
     types,
     abilities,
     stats,
+    lang,
   } = pageContext;
 
   const { language } = useGlobalContext();
@@ -22,7 +23,7 @@ const PokemonPage = ({ pageContext }) => {
     <Layout>
       <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold capitalize">{name}</h1>
+          <h1 className="text-4xl font-bold capitalize">{name[language]}</h1>
 
           <button
             onClick={() => navigate(-1)}
@@ -36,7 +37,7 @@ const PokemonPage = ({ pageContext }) => {
           <div className="flex flex-col items-center text-center">
             <img
               src={image}
-              alt={name}
+              alt={name[language]}
               className="w-60 h-50 mb-4 object-contain "
             />
             <div className="flex flex-col items-left text-left">
