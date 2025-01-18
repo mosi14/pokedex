@@ -21,6 +21,7 @@ exports.sourceNodes = async ({
 
     createNode({
       id: createNodeId(pokemon.name),
+      number: pokemonDetails.data.id,
       name: {
         en:
           pokemonDetails.data.names.find((n) => n.language.name === "en")
@@ -93,6 +94,7 @@ exports.createPages = async ({ graphql, actions }) => {
       allPokemon {
         nodes {
           id
+          number
           name {
             en
             it
@@ -161,6 +163,7 @@ exports.createPages = async ({ graphql, actions }) => {
         component: pokemonTemplate,
         context: {
           id: pokemon.id,
+          number: pokemon.number,
           name: pokemon.name,
           genus: pokemon.genus,
           description: pokemon.description,

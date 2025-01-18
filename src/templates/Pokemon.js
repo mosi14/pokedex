@@ -5,6 +5,8 @@ import { navigate } from "gatsby";
 
 const PokemonPage = ({ pageContext }) => {
   const {
+    id,
+    number,
     name,
     genus,
     description,
@@ -14,7 +16,6 @@ const PokemonPage = ({ pageContext }) => {
     types,
     abilities,
     stats,
-    lang,
   } = pageContext;
 
   const { language } = useGlobalContext();
@@ -24,6 +25,7 @@ const PokemonPage = ({ pageContext }) => {
       <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold capitalize">{name[language]}</h1>
+          <p className="text-2xl font-bold">#{number}</p>
 
           <button
             onClick={() => navigate(-1)}
