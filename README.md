@@ -4,46 +4,85 @@
   </a>
 </p>
 <h1 align="center">
-  Gatsby Minimal Starter
+  Pokedex
 </h1>
 
-## 🚀 Quick start
+A Pokémon search and exploration app built with Gatsby.js, React, and TailwindCSS, designed for users to search and explore Pokémon with multilingual support.
 
-1.  **Create a Gatsby site.**
+---
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+## Features
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+- 🌟 Search for Pokémon by name.
+- 🌐 Multilingual support (English, Italian, French, Spanish).
+- ⚡ Fully responsive UI with TailwindCSS.
+- 🛠 Built with Gatsby.js for optimized performance.
+- 🔍 End-to-End testing with Cypress.
+- 🧪 Unit testing with Jest and React Testing Library.
 
-2.  **Start developing.**
+---
 
-    Navigate into your new site’s directory and start it up.
+## Table of Contents
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+1. [Demo](#demo)
+2. [Technologies Used](#technologies-used)
+3. [Installation](#installation)
+4. [Testing](#testing)
 
-3.  **Open the code and start customizing!**
 
-    Your site is now running at http://localhost:8000!
+---
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+## Demo
 
-4.  **Learn more**
+### [Live Demo](https://pokedex-eta-ten-87.vercel.app/)
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-## 🚀 Quick start (Netlify)
+![Pokedex Screenshot](<Screenshot 2025-01-19 at 15.46.27.png>)  
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+---
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal)
+## Technologies Used
+
+- **Frontend**: React, Gatsby.js, TailwindCSS
+- **Backend**: Gatsby plugins for dynamic data
+- **State Management**: React Context API
+- **Testing**: Jest, React Testing Library, Cypress
+- **Deployment**: Vercel
+
+---
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/pokedex.git
+   cd pokedex
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+
+3. Start the development server:
+
+    ```bash
+    gatsby develop
+
+4.  Open the app in your browser at http://localhost:8000.
+
+---
+
+## Testing
+
+### Run Unit Tests
+
+  ```bash
+  npm test
+```
+
+### Run End-to-End Tests
+```bash
+npm run cypress:open
+```
+
