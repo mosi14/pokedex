@@ -145,12 +145,12 @@ exports.createPages = async ({ graphql, actions }) => {
       },
     });
   });
-  createRedirect({
-    fromPath: `/`,
-    toPath: `/page/1/`,
-    isPermanent: true,
-    redirectInBrowser: true,
-  });
+  // createRedirect({
+  //   fromPath: `/`,
+  //   toPath: `/page/1/`,
+  //   isPermanent: true,
+  //   redirectInBrowser: true,
+  // });
 
   // 2. Create Detail Pages for Each Pokémon
   const pokemonTemplate = require.resolve("../../src/templates/Pokemon.js");
