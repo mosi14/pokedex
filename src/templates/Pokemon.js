@@ -5,7 +5,6 @@ import { navigate } from "gatsby";
 
 const PokemonPage = ({ pageContext }) => {
   const {
-    id,
     number,
     name,
     genus,

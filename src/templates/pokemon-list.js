@@ -3,7 +3,7 @@ import { graphql, Link } from "gatsby";
 import Layout from "../components/Layout";
 import { useGlobalContext } from "../context/GlobalContext";
 
-const PokemonList = ({ data , pageContext }) => {
+const PokemonList = ({ data, pageContext }) => {
   const { searchQuery , language} = useGlobalContext();
   const { currentPage, numPages } = pageContext;
   const isFirst = currentPage === 1;
@@ -12,12 +12,11 @@ const PokemonList = ({ data , pageContext }) => {
   const nextPage = `/page/${currentPage + 1}`;
 
   const allPokemon = data.allPokemon.nodes;
-  //const paginatedPokemon = data.paginatedPokemon.nodes;
-  const paginatedPokemon = data?.paginatedPokemon?.nodes || [];
+  const paginatedPokemon = data.paginatedPokemon.nodes;
 
   const filteredPokemon = searchQuery
     ? allPokemon.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+        pokemon.name[language].toLowerCase().includes(searchQuery.toLowerCase())
       )
     : paginatedPokemon;
 
