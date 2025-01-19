@@ -1,6 +1,7 @@
 import React from "react";
+import "./src/styles/global.css";
 import { GlobalProvider } from "./src/context/GlobalContext";
 
-exports.wrapRootElement = ({ element }) => {
-  return <GlobalProvider>{element}</GlobalProvider>;
-};
+export const wrapRootElement = ({ element }) => (
+  <GlobalProvider>{element}</GlobalProvider>
+);
